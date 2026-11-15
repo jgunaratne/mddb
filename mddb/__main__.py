@@ -9,6 +9,7 @@ import urllib.parse
 from pathlib import Path
 
 from mddb import chat as chat_lib
+from mddb import envfile
 from mddb import server as server_lib
 from mddb import store as store_lib
 from mddb import sync as sync_lib
@@ -17,6 +18,9 @@ _REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
 def main() -> None:
+  # Settings in .env act as defaults; the real environment and flags win.
+  env_path = _REPO_ROOT / ".env"
+  from_env_file = envfile.load(env_path)
   parser = argparse.ArgumentParser(
       prog="mddb", description="Local markdown document server."
   )
@@ -139,6 +143,8 @@ def main() -> None:
       chat=chat,
   )
   shown_host = f"[{args.host}]" if ":" in args.host else args.host
+  if from_env_file:
+    logging.info("read %s from %s", ", ".join(from_env_file), env_path)
   logging.info("database: %s", args.db)
   logging.info("serving on http://%s:%d", shown_host, httpd.server_port)
   if chat:

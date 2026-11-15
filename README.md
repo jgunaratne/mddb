@@ -41,6 +41,18 @@ Then open <http://127.0.0.1:8420>.
 | `--sync-interval` | `MDDB_SYNC_INTERVAL` | `60` | Seconds between syncs. |
 | `--sync-once` | | | Sync once and exit, without serving. |
 
+Settings can also be kept in a `.env` file in the mddb directory, one
+`NAME=value` per line, using the names from the Environment column:
+
+```bash
+GEMINI_API_KEY=your-key
+MDDB_TOKEN=choose-a-secret
+```
+
+The file is read at startup. A variable that is already set in the environment
+wins over the file, and a flag wins over both. `.env` is listed in
+`.gitignore`, so keys in it are not committed.
+
 By default only programs on the same machine can connect. To reach the server
 from another machine, listen on all addresses and set a token so that others
 cannot change your documents:
@@ -55,7 +67,7 @@ Reads stay open to anyone who can reach the port; the token only guards writes.
 
 The panel on the right of the web app answers questions about the stored
 documents. It needs a Gemini API key (from <https://aistudio.google.com/apikey>)
-in the environment when the server starts:
+when the server starts, either in the environment or in the `.env` file:
 
 ```bash
 GEMINI_API_KEY=your-key python3 -m mddb
