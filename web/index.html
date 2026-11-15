@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>mddb</title>
+    <meta name="description" content="Browse and search markdown documents stored in mddb." />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#/" id="brand-link">mddb</a>
+      <div class="search">
+        <label class="visually-hidden" for="search-input">Search documents</label>
+        <input
+          id="search-input"
+          type="search"
+          placeholder="Search documents…  ( / )"
+          autocomplete="off"
+          spellcheck="false"
+        />
+      </div>
+      <div class="topbar-actions">
+        <button id="refresh-button" class="button" type="button">Refresh</button>
+        <button
+          id="chat-toggle"
+          class="button"
+          type="button"
+          aria-controls="chat"
+          aria-expanded="true"
+        >
+          Chat
+        </button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar" aria-label="Documents">
+        <section class="tags" id="tags-section" hidden>
+          <div class="section-heading">
+            <h2>Tags</h2>
+            <button id="clear-tags-button" class="link-button" type="button" hidden>
+              Clear
+            </button>
+          </div>
+          <div class="tag-list" id="tag-list"></div>
+        </section>
+        <section class="files">
+          <div class="section-heading">
+            <h2 id="files-heading">Files</h2>
+            <span class="count" id="files-count" aria-live="polite"></span>
+          </div>
+          <nav id="file-list" aria-labelledby="files-heading"></nav>
+        </section>
+      </aside>
+
+      <main class="viewer" id="viewer" tabindex="-1"></main>
+
+      <aside class="chat" id="chat" aria-label="Chat about the documents">
+        <div class="chat-header">
+          <h2>Chat</h2>
+          <span class="chat-model" id="chat-model"></span>
+          <button id="chat-new" class="link-button" type="button" hidden>
+            New chat
+          </button>
+          <button
+            id="chat-close"
+            class="link-button chat-close"
+            type="button"
+            aria-label="Close chat"
+          >
+            Close
+          </button>
+        </div>
+        <div class="chat-scope">
+          <label for="chat-scope-select">Context</label>
+          <select id="chat-scope-select">
+            <option value="all">All documents</option>
+            <option value="selected">Selected documents</option>
+            <option value="filter">Documents in the list</option>
+            <option value="open">Open document only</option>
+          </select>
+        </div>
+        <div class="chat-selection" id="chat-selection" hidden></div>
+        <div class="chat-messages" id="chat-messages" role="log" aria-live="polite"></div>
+        <form class="chat-form" id="chat-form">
+          <label class="visually-hidden" for="chat-input">Message</label>
+          <textarea
+            id="chat-input"
+            rows="2"
+            placeholder="Ask about your documents…"
+          ></textarea>
+          <button id="chat-send" class="button primary" type="submit">Send</button>
+        </form>
+      </aside>
+    </div>
+
+    <script src="vendor/purify.min.js"></script>
+    <script src="vendor/marked.umd.js"></script>
+    <script src="app.js"></script>
+    <script src="chat.js"></script>
+  </body>
+</html>
